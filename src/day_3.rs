@@ -1,16 +1,6 @@
 use std::fs;
 
 // Function to check if a sequence is valid (safe)
-fn is_safe(numbers: &Vec<i32>) -> bool {
-    for i in 0..(numbers.len() - 1) {
-        let diff = numbers[i + 1] - numbers[i];
-        if diff.abs() < 1 || diff.abs() > 3 || (i > 0 && diff.signum() != (numbers[i] - numbers[i - 1]).signum()) {
-            return false;
-        }
-    }
-    true
-}
-
 pub fn main() {
     let contents = fs::read_to_string("./inputs/day_2.txt").expect("Should be able to find file");
 
