@@ -28,7 +28,7 @@ fn update_is_ordered(updates: &Vec<u32>, rules: &HashMap<u32, HashSet<u32>>) -> 
             }
         }
     }
-    return true
+    return true;
 }
 
 fn part_one(contents: String) {
@@ -62,8 +62,18 @@ fn part_two(contents: String) {
             .map(|x| x.parse::<u32>().unwrap())
             .collect::<Vec<u32>>();
 
-        if !update_is_ordered(&updates, &rules) {
-            println!("{} update unordered", update_line);
+        let mut disallowed: HashSet<u32> = HashSet::new();
+
+        for update in updates.iter().rev() {
+            if disallowed.contains(&update) {
+                println!("In {:#?}, {} is in the wrong spot", updates, update);
+            }
+            let rule_disallowed = rules.get(&update);
+            if rule_disallowed != None {
+                for rule in rule_disallowed.unwrap() {
+                    disallowed.insert(*rule);
+                }
+            }
         }
     }
     println!("{}", answer);
@@ -102,5 +112,4 @@ pub fn main() {
     let contents = fs::read_to_string("./inputs/day_5.txt").expect("Should be able to find file");
     // part_one(contents);
     part_two(test.to_string());
-    
 }
